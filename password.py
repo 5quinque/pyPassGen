@@ -29,27 +29,34 @@ def gen_pass(length, no_numerical=False, punctuation=False):
     string
         The generated password
     """
+
     characters = [string.ascii_letters]
+
+    # Add user options to the character set
     if not no_numerical:
         characters.append(string.digits)
     if punctuation:
         characters.append(string.punctuation)
 
+    # Shuffle the character set
     random.SystemRandom().shuffle(characters)
 
     chars_left = length - (len(characters) - 1)
     char_amounts = []
 
+    # Decide on number of characters per character set
     for char_set in characters:
         i = random.SystemRandom().randint(1, chars_left)
         char_amounts.append(i)
         chars_left -= i - 1
     char_amounts[-1] += chars_left - 1
 
+    # Generate the password's characters
     password = ''
     for i, length in enumerate(char_amounts):
         password +=''.join(random.SystemRandom().choice(characters[i]) for _ in range(length))
     
+    # Shuffle the password
     password = list(password)
     random.SystemRandom().shuffle(password)
 
