@@ -28,17 +28,34 @@ def gen_pass(length, no_numerical=False, punctuation=False):
     -------
     string
         The generated password
-    todo
-    ----
-    ensure at least one of every possible type of character
-    exists in the password
     """
-    chars=string.ascii_letters
+    characters = [string.ascii_letters]
     if not no_numerical:
-        chars += string.digits
+        characters.append(string.digits)
     if punctuation:
-        chars += string.punctuation
-    return ''.join(random.SystemRandom().choice(chars) for _ in range(length))
+        characters.append(string.punctuation)
+
+    random.SystemRandom().shuffle(characters)
+
+    chars_left = length - (len(characters) - 1)
+    char_amounts = []
+
+    for char_set in characters:
+        i = random.SystemRandom().randint(1, chars_left)
+        char_amounts.append(i)
+        chars_left -= i - 1
+    char_amounts[-1] += chars_left - 1
+
+    password = ''
+    for i, length in enumerate(char_amounts):
+        password +=''.join(random.SystemRandom().choice(characters[i]) for _ in range(length))
+    
+    password = list(password)
+    random.SystemRandom().shuffle(password)
+
+    password = ''.join(password)
+
+    return password
 
 def main():
     """ Handle command line arguments and print passwords """
