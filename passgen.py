@@ -13,7 +13,7 @@ import random
 import string
 import argparse
 
-def gen_pass(length, no_numerical=False, punctuation=False):
+def gen_pass(length=8, no_numerical=False, punctuation=False):
     """Generate a random password
     Parameters
     ----------
